@@ -10,20 +10,21 @@ use std::env;
 mod services;
 mod db_utils;
 mod messages;
-mod db_models;
 mod actors;
+mod db_models;
+mod schema;
+mod insertables;
 
-use db_utils::{get_pool,AppState,DbActor};
-use services::{fetch_users,create_user_article,fetch_user_articles};
+use db_utils::{get_pool, AppState, DbActor};
+use services::{fetch_user_articles, fetch_users,create_user_article};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
-
     let db_url: String = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let pool: Pool<ConnectionManager<PgConnection>> = get_pool(&db_url);
-    let db_addr = SyncArbiter::start(5, move || DbActor(pool.clone())); 
-   
+    let db_addr = SyncArbiter::start(5, move || DbActor(pool.clone()));
+    
     HttpServer::new(move || {
         App::new()
             .app_data(Data::new(AppState { db: db_addr.clone() }))

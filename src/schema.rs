@@ -1,4 +1,4 @@
-// @generated automatically by Diesel CLI.
+﻿// @generated automatically by Diesel CLI.
 
 diesel::table! {
     articles (id) {
@@ -6,7 +6,7 @@ diesel::table! {
         title -> Varchar,
         content -> Text,
         created_by -> Int4,
-        created_on -> Nullable<Timestamp>,
+        created_on -> Nullable<Timestamptz>,
     }
 }
 
