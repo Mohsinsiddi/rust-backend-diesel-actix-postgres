@@ -1,11 +1,11 @@
 use actix_web::{
     get, post,
     web::{Data, Json, Path},
-    Responder, HttpResponse,
+    Responder, HttpResponse, App,
 };
 use serde::Deserialize;
 use crate::{
-    messages::{FetchUser, FetchUserArticles, CreateArticle},
+    messages::{FetchUser, FetchUserArticles, CreateArticle,CreateUser},
     AppState, DbActor
 };
 use actix::Addr;
@@ -15,6 +15,12 @@ use actix::Addr;
 pub struct CreateArticleBody {
     pub title: String,
     pub content: String,
+}
+
+#[derive(Deserialize)]
+pub struct CreateUserBody {
+    pub first_name: String,
+    pub last_name: String,
 }
 
 #[get("/users")]
@@ -57,6 +63,19 @@ pub async fn create_user_article(state:Data<AppState>,path:Path<i32>,body:Json<C
        Ok(Ok(info))=> HttpResponse::Ok().json(info),
        _ => HttpResponse::InternalServerError().json("failed to create article")
    }
+}
+
+#[post("/users")]
+pub async fn create_user(state:Data<AppState>,body:Json<CreateUserBody>) -> impl Responder {
+    let db:Addr<DbActor> = state.as_ref().db.clone();
+
+    match db.send(CreateUser{
+        first_name:body.first_name.to_string(),
+        last_name:body.last_name.to_string()
+    }).await {
+        Ok(Ok(info))=> HttpResponse::Ok().json(info),
+        _ => HttpResponse::InternalServerError().json("failed to create user")
+    }
 }
 
 

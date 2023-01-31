@@ -16,7 +16,7 @@ mod schema;
 mod insertables;
 
 use db_utils::{get_pool, AppState, DbActor};
-use services::{fetch_user_articles, fetch_users,create_user_article};
+use services::{fetch_user_articles, fetch_users,create_user_article,create_user};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -29,6 +29,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(Data::new(AppState { db: db_addr.clone() }))
             .service(fetch_users)
+            .service(create_user)
             .service(fetch_user_articles)
             .service(create_user_article)
     })

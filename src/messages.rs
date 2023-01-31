@@ -19,3 +19,10 @@ pub struct  CreateArticle {
    pub content:String,
    pub created_by :i32
 }
+
+#[derive(Message)]
+#[rtype(result="QueryResult<User>")]
+pub struct CreateUser {
+  pub first_name:String,
+  pub last_name:String
+}
