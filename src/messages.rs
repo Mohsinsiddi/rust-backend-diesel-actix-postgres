@@ -6,6 +6,12 @@ use diesel::QueryResult;
 #[rtype(result = "QueryResult<Vec<User>>")]
 pub struct FetchUser;
 
+
+#[derive(Message)]
+#[rtype(result = "QueryResult<Vec<Article>>")]
+pub struct FetchArticle;
+
+
 #[derive(Message)]
 #[rtype(result = "QueryResult<Vec<Article>>")]
 pub struct FetchUserArticles {

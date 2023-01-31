@@ -5,7 +5,7 @@ use actix_web::{
 };
 use serde::Deserialize;
 use crate::{
-    messages::{FetchUser, FetchUserArticles, CreateArticle,CreateUser},
+    messages::{FetchUser, FetchUserArticles, CreateArticle,CreateUser,FetchArticle},
     AppState, DbActor
 };
 use actix::Addr;
@@ -32,6 +32,16 @@ pub async fn fetch_users(state: Data<AppState>) -> impl Responder {
         Ok(Ok(info)) => HttpResponse::Ok().json(info),
         Ok(Err(_)) => HttpResponse::NotFound().json("No users found"),
         _ => HttpResponse::InternalServerError().json("Unable to retrieve users"),
+    }
+}
+
+#[get("/articles")]
+pub async fn fetch_articles(state:Data<AppState>) -> impl Responder {
+    let db : Addr<DbActor> = state.as_ref().db.clone();
+
+    match db.send(FetchArticle).await {
+        Ok(Ok(info))=> HttpResponse::Ok().json(info),
+        _ => HttpResponse::InternalServerError().json("Unable to retrieve articles"),
     }
 }
 
