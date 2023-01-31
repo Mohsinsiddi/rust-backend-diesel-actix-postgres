@@ -40,7 +40,7 @@ diesel::table! {
 diesel::table! {
     users (id) {
         id -> Int4,
-        address -> Bytea,
+        address -> Varchar,
         user_name -> Varchar,
     }
 }
