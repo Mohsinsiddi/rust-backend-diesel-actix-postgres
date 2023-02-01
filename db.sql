@@ -18,12 +18,13 @@ CREATE TABLE IF NOT EXISTS collections
 
 CREATE TABLE IF NOT EXISTS trades
 (
-    id SERIAL PRIMARY KEY NOT NULL,
-    users_id INT NOT NULL,
+    id SERIAL PRIMARY KEY NOT NULL, //done
+    users_id INT NOT NULL, // done
     accepted_order_id INT NOT NULL,
+    deposited_amount INT NOT NULL,
     buyer_address VARCHAR NOT NULL,
     seller_address VARCHAR NOT NULL,
-    deposited_amount INT NOT NULL,
+    
 
     FOREIGN KEY (users_id) REFERENCES users(id)
 );

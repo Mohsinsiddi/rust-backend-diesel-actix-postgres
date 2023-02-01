@@ -11,6 +11,17 @@ use diesel::Queryable;
 use serde::Serialize;
 
 #[derive(Queryable, Debug, Serialize)]
+pub struct Collection {
+    pub id: i32,
+    pub collection_name: String,
+    pub ceiling_price: i32,
+    pub active_trades: i32,
+    pub total_trades: i32,
+    pub volume: i32,
+    pub supply: i32,
+}
+
+#[derive(Queryable, Debug, Serialize)]
 pub struct Trade {
     pub id: i32,
     pub title: String,

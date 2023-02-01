@@ -1,4 +1,4 @@
-use crate::db_models::{User, Trade};
+use crate::db_models::{User, Trade,Collection};
 use actix::Message;
 use diesel::QueryResult;
 
@@ -11,6 +11,10 @@ pub struct FetchUser;
 #[rtype(result = "QueryResult<Vec<Trade>>")]
 pub struct FetchTrade;
 
+
+#[derive(Message)]
+#[rtype(result = "QueryResult<Vec<Collection>>")]
+pub struct FetchCollection;
 
 #[derive(Message)]
 #[rtype(result = "QueryResult<Vec<Trade>>")]
@@ -35,4 +39,15 @@ pub struct  CreateTrade {
 pub struct CreateUser {
   pub address:String,
   pub user_name:String
+}
+
+#[derive(Message)]
+#[rtype(result = "QueryResult<Collection>")]
+pub struct CreateCollection {
+  pub collection_name: String,
+  pub ceiling_price: i32,
+  pub active_trades: i32,
+  pub total_trades: i32,
+  pub volume: i32,
+  pub supply: i32,
 }
